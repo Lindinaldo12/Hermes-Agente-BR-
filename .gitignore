@@ -17,3 +17,4 @@ memoria/usuarios_db.json
 memoria/convites_db.json
 memoria/master.json
 
+.env
