@@ -9,7 +9,6 @@ import subprocess
 import sys
 import threading
 
-import psutil
 
 
 class _BasicLimits(ctypes.Structure):

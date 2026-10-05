@@ -234,6 +234,13 @@ class Python(_BionicDebArm, BinaryPackage, DebPackage):
     def main_rel(self, target: str) -> str:
         return self.main_bin_rel
 
+    def env(self, entry: Path, target: str) -> dict:
+        env = super().env(entry, target)
+        if target == "linux-arm64-bionic":
+            lib_dir = entry / self.prefix_rel / "lib"
+            env["LD_LIBRARY_PATH"] = str(lib_dir)
+        return env
+
     # termux-main (official termux repo) python deb. It lags python-build-
     # standalone by one patch (3.14.6-1 vs 3.14.7), so the bionic row is a
     # manual pin -- never derived from the node version, and pm update leaves

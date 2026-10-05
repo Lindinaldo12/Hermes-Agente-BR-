@@ -154,7 +154,7 @@ def _identity(lockfile: Lockfile, name: str, target: str):
     artifacts = lockfile.artifacts(name, target)
     if not artifacts:
         return None
-    return (target, tuple(a["sha256"] for a in artifacts))
+    return (target, tuple(a["sha256"] for a in artifacts if "sha256" in a))
 
 
 def lazy_installs_allowed() -> bool:

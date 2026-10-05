@@ -24,7 +24,7 @@ except ImportError:
 from pathlib import Path
 from typing import Callable
 
-import psutil
+# psutil não é suportado pelo Android/Termux
 
 from hermes_constants import get_hermes_home
 from tools.environments.base import _file_mtime_key
@@ -89,7 +89,7 @@ def _temp_entry_owner_alive(name: str) -> bool:
     pid_part = name[len(_SYNC_BACK_TEMP_PREFIX):].split("-", 1)[0]
     if not pid_part.isdigit():
         return True
-    return psutil.pid_exists(int(pid_part))
+    return os.path.exists(f"/proc/{int(pid_part)}")
 
 
 def _cleanup_stale_sync_back_temp(temp_dir: Path | None = None) -> int:
