@@ -1,0 +1,27 @@
+[Unit]
+Description=Bob AI X - bot de Telegram
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/bob
+EnvironmentFile=/home/ubuntu/bob/.env
+ExecStart=/usr/bin/node /home/ubuntu/bob/bot.js
+Restart=always
+RestartSec=10
+
+# Segurança: o bot só precisa do próprio diretório
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/home/ubuntu/bob/memoria
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=bob-ai-x
+
+[Install]
+WantedBy=multi-user.target

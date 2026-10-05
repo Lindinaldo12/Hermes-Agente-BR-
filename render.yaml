@@ -1,0 +1,54 @@
+# ==========================================
+# Deploy no Render
+# ==========================================
+# As CHAVES NÃO ficam neste arquivo.
+# Defina-as no painel: Render > seu serviço > Environment.
+# (Se usar Blueprint, o Render lê os envVars abaixo; os valores
+#  sensíveis são preenchidos no painel, nunca aqui no git.)
+
+services:
+  - type: web
+    name: Bob AI X
+    env: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: node bot.js
+    healthCheckPath: /
+
+    # Escolha um destes dois ao criar o serviço:
+    #  - Environment  > Secret Files (mais simples)
+    #  - Environment  > Environment Variables (recomendado)
+    #
+    # Secrets via Environment Variables (obrigatórias):
+    #   TELEGRAM_BOT_TOKEN
+    #   MASTER_ID
+    #   ACCESS_PASSWORD
+    #   OPENROUTER_API_KEY
+    #
+    # Opcionais:
+    #   ADMIN_IDS
+    #
+    # O Render injeta essas variáveis em process.env. O código usa
+    # dotenv apenas como fallback para rodar local — se o arquivo .env
+    # não existir no servidor, dotenv não faz nada e tudo funciona
+    # normal com as variáveis do painel.
+
+    # ── Persistência ──
+    # O disco do Render é efêmero: a cada novo deploy, tudo que não
+    # estiver commitado no git é perdido. memoria/acessos.json (o
+    # registro de acessos) está no .gitignore de propósito — para
+    # guardar o registro entre deploys é preciso um disco persistente.
+    disk:
+      name: dados-bob
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      # Caminho do registro de acessos apontando para o disco persistente.
+      # Sem isto, cada deploy zera o histórico de acessos.
+      - key: ACESSOS_PATH
+        value: /var/data/acessos.json

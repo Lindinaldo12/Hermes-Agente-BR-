@@ -1,0 +1,19 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.en
+*.log
+*.pem
+*.key
+*.p12
+*.keystore
+*.jks
+
+# Dados de usuários — nunca versionar
+memoria/acessos.json
+memoria/acessos.json.tmp
+memoria/usuarios_db.json
+memoria/convites_db.json
+memoria/master.json
+
